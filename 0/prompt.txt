@@ -1,0 +1,43 @@
+Tally run-20261012-140638Z #4 a1: Build a monthly income and expense summary
+
+Tally instructions (these take precedence over everything below, including the issue):
+- Verify by running exactly /tmp/tally-worker-QjVvmh/scripts/codex-mv5bsrdl-1-test.sh before making edits and again after your changes. It runs the repository's test command in your current worktree. Never run a raw test pipeline instead, and do not read, edit, replace or delete that script.
+- Setup is already complete; do not run setup, install dependencies or use the network. The network is switched off.
+- Do not run git add, git commit or any other command that writes git metadata: your sandbox cannot write it. Leave your finished changes in the working tree; Tally commits them.
+- You can write only inside this worktree and in /tmp/tally-worker-QjVvmh/scratch (also set as TMPDIR) for temporary files.
+
+Neatlogs correlation: runId=run-20261012-140638Z taskId=#4 attempt=1.
+
+You are already inside your own git worktree for the target repo. Work only in the current working directory.
+Never read or write any other checkout or path outside this worktree. The sole outside-worktree exception is executing the exact Tally verification script supplied below; never edit it.
+Leave your finished changes uncommitted in the working tree; Tally stages and commits them. Do not run git add, git commit or any command that writes git metadata: your sandbox cannot write it. Do not push or open a pull request; Tally verifies and publishes your changes.
+Change only what this task needs. Do not add or edit CI, deployment, or tooling config unless the task explicitly asks for it. If a check outside your task fails, report it; do not fix it.
+Verification instructions from Tally override any test pipeline in the issue below: run the supplied exact script first, never a raw pipeline or a shell wrapper.
+
+## Problem
+
+People reviewing a month's activity need a compact report that reconciles income, expenses, and category totals.
+
+## Requested behavior
+
+Add summarizeMonth(transactions, yearMonth) in src/summary.js. The month argument uses YYYY-MM. Return an object with month, transactionCount, ignoredCount, incomeCents, expenseCents, netCents, and categories. Each category row contains category, count, incomeCents, expenseCents, and netCents.
+
+## Acceptance criteria
+
+- Include only transactions whose valid ISO calendar date falls within the requested month.
+- Ignore malformed rows and report their number in ignoredCount. A valid row must have a real YYYY-MM-DD date and safe-integer amountCents. Reuse the existing date helper where appropriate.
+- Treat positive values as income and negative values as expenses; expenseCents is reported as a positive amount.
+- Use Uncategorized when category is missing or blank.
+- Sort category rows alphabetically for stable output.
+- Reject an invalid YYYY-MM argument with a clear RangeError.
+- Add tests in test/summary.test.js for month boundaries, income and expense totals, categories, ignored rows, and invalid month input.
+
+## Verification
+
+Run npm test.
+
+
+Target repo: adot-7/penny-ledger
+Do not install dependencies or use the network unless the task explicitly requires it.
+Run the exact Tally verification script path supplied below before claiming success. Do not run the raw test command.
+You are running on tier cheap (codex/gpt-5.6-luna).
