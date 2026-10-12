@@ -1,0 +1,13 @@
+{
+  "name": "penny-ledger",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A small, dependency-free Node.js toolkit for personal transaction ledgers.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
