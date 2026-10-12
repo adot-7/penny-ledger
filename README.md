@@ -2,7 +2,7 @@
 
 A small, dependency-free Node.js toolkit for working with personal transaction records.
 
-Penny Ledger stores amounts as integer cents, keeps the ledger in memory, and provides a focused place to build safe import, reporting, and export workflows. The project is intentionally small: no database, framework, or third-party runtime packages.
+Penny Ledger validates transaction entries, keeps them in an in-memory ledger, and calculates signed balances in integer cents. The project stays intentionally small: no database, framework, or third-party runtime packages.
 
 ## Requirements
 
@@ -25,12 +25,10 @@ Penny Ledger stores amounts as integer cents, keeps the ledger in memory, and pr
       amountCents: -450
     }
 
-Dates use ISO calendar format. Expenses are negative integer cents; income is positive. The current ledger API is an in-memory starting point. The open issues describe the next small, independently testable improvements.
+Dates use real ISO calendar dates. Expenses are negative integer cents; income is positive. The ledger validates required fields, prevents duplicate IDs, returns copies, and can calculate a balance without floating-point arithmetic.
+
+The open roadmap issues add currency display, date and category filters, CSV export, monthly reporting, and safe import reconciliation.
 
 ## Development
 
 Run the test suite with npm test. New behavior should include tests using Node's built-in test runner. No package installation is required.
-
-## Roadmap
-
-See the open issues for the next features: currency display, date and category filters, CSV export, monthly summaries, and safe import reconciliation.

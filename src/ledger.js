@@ -1,13 +1,34 @@
-/** Create a tiny in-memory ledger. Entries are copied on input and output. */
+import { assertTransaction } from "./transaction.js";
+
+/** Create an in-memory ledger with validated, uniquely identified entries. */
 export function createLedger(initialTransactions = []) {
-  const transactions = initialTransactions.map((item) => ({ ...item }));
+  if (!Array.isArray(initialTransactions)) {
+    throw new TypeError("Initial transactions must be an array");
+  }
+
+  const transactions = new Map();
+  for (const entry of initialTransactions) {
+    const transaction = assertTransaction(entry);
+    if (transactions.has(transaction.id)) {
+      throw new RangeError("Duplicate transaction id: " + transaction.id);
+    }
+    transactions.set(transaction.id, transaction);
+  }
 
   return {
-    add(transaction) {
-      transactions.push({ ...transaction });
+    add(entry) {
+      const transaction = assertTransaction(entry);
+      if (transactions.has(transaction.id)) {
+        throw new RangeError("Duplicate transaction id: " + transaction.id);
+      }
+      transactions.set(transaction.id, transaction);
+      return { ...transaction };
     },
     list() {
-      return transactions.map((item) => ({ ...item }));
+      return [...transactions.values()].map((item) => ({ ...item }));
+    },
+    remove(id) {
+      return transactions.delete(id);
     },
   };
 }
